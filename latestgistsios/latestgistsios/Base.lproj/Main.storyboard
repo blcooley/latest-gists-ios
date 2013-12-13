@@ -53,7 +53,7 @@
                             <outlet property="delegate" destination="pGg-6v-bdr" id="Y6K-Cp-Qkv"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Master" id="tQt-TN-PWz"/>
+                    <navigationItem key="navigationItem" title="Latest Gists" id="tQt-TN-PWz"/>
                     <connections>
                         <segue destination="Ah7-4n-0Wa" kind="push" identifier="GistsToDetail" id="MGb-G5-7sr"/>
                         <segue destination="9OP-Qq-yWP" kind="push" identifier="GistsToFiles" id="noD-dr-TXJ"/>
@@ -63,7 +63,7 @@
             </objects>
             <point key="canvasLocation" x="459" y="64"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Table View Controller - Gist Files-->
         <scene sceneID="Uht-P8-lsH">
             <objects>
                 <tableViewController id="9OP-Qq-yWP" sceneMemberID="viewController">
@@ -89,7 +89,7 @@
                             <outlet property="delegate" destination="9OP-Qq-yWP" id="dnf-ys-23Y"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="2rQ-Jf-0Lh"/>
+                    <navigationItem key="navigationItem" title="Gist Files" id="2rQ-Jf-0Lh"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MZ5-em-Kzx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -133,6 +133,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="MGb-G5-7sr"/>
+        <segue reference="HX0-kd-0gZ"/>
     </inferredMetricsTieBreakers>
 </document>

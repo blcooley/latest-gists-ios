@@ -7,7 +7,6 @@
 //
 
 #import "MasterViewController.h"
-
 #import "DetailViewController.h"
 
 @interface MasterViewController () {
@@ -25,8 +24,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self insertNewObject:nil];
-    [self insertNewObject:nil];
+    [self loadGists];
 }
 
 - (void)didReceiveMemoryWarning
@@ -34,14 +32,30 @@
     [super didReceiveMemoryWarning];
 }
 
-- (void)insertNewObject:(id)sender
+- (void)loadGists {
+    NSURL *URL = [NSURL URLWithString:@"https://api.github.com/gists/public"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+    
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request
+                                            completionHandler:
+                                  ^(NSData *data, NSURLResponse *response, NSError *error) {
+                                      [self parseJsonData:data];
+                                  }];
+    
+    [task resume];
+}
+
+- (void) parseJsonData:(NSData*)data
 {
-    if (!_objects) {
-        _objects = [[NSMutableArray alloc] init];
-    }
-    [_objects insertObject:[NSDate date] atIndex:0];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSError *error;
+        _objects = [NSJSONSerialization JSONObjectWithData:data
+                                                   options:kNilOptions
+                                                     error:&error];
+        NSLog(@"gists: %@", _objects);
+        dispatch_async(dispatch_get_main_queue(), ^{ [self.tableView reloadData]; });
+    });
 }
 
 #pragma mark - Table View
@@ -60,8 +74,12 @@
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-    NSDate *object = _objects[indexPath.row];
-    cell.textLabel.text = [object description];
+    NSDictionary *object = _objects[indexPath.row];
+    NSLog(@"allkeys: %@", [object allKeys]);
+    id description = object[@"description"];
+    if (description != [NSNull null]) {
+        cell.textLabel.text = description;
+    }
     return cell;
 }
 
