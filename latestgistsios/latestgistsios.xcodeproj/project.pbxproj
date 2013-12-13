@@ -25,6 +25,8 @@
 		5864CA4318592FDE00A89DC0 /* Gist.m in Sources */ = {isa = PBXBuildFile; fileRef = 5864CA4218592FDE00A89DC0 /* Gist.m */; };
 		5864CA4618592FF500A89DC0 /* GistFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 5864CA4518592FF500A89DC0 /* GistFile.m */; };
 		5864CA4B185A6FFA00A89DC0 /* NSDictionary+ObjectFromJson.m in Sources */ = {isa = PBXBuildFile; fileRef = 5864CA4A185A6FFA00A89DC0 /* NSDictionary+ObjectFromJson.m */; };
+		5864CA4F185BA5ED00A89DC0 /* GistTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5864CA4E185BA5ED00A89DC0 /* GistTableViewCell.m */; };
+		5864CA52185BA67000A89DC0 /* FilesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5864CA51185BA67000A89DC0 /* FilesViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +67,10 @@
 		5864CA4518592FF500A89DC0 /* GistFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GistFile.m; path = Model/GistFile.m; sourceTree = "<group>"; };
 		5864CA49185A6FFA00A89DC0 /* NSDictionary+ObjectFromJson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+ObjectFromJson.h"; path = "Utility/NSDictionary+ObjectFromJson.h"; sourceTree = "<group>"; };
 		5864CA4A185A6FFA00A89DC0 /* NSDictionary+ObjectFromJson.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+ObjectFromJson.m"; path = "Utility/NSDictionary+ObjectFromJson.m"; sourceTree = "<group>"; };
+		5864CA4D185BA5ED00A89DC0 /* GistTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GistTableViewCell.h; sourceTree = "<group>"; };
+		5864CA4E185BA5ED00A89DC0 /* GistTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GistTableViewCell.m; sourceTree = "<group>"; };
+		5864CA50185BA67000A89DC0 /* FilesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesViewController.h; sourceTree = "<group>"; };
+		5864CA51185BA67000A89DC0 /* FilesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +130,7 @@
 		5864CA0E1859273400A89DC0 /* latestgistsios */ = {
 			isa = PBXGroup;
 			children = (
+				5864CA4C185B9EA000A89DC0 /* Network */,
 				5864CA48185A6FC100A89DC0 /* Utility */,
 				5864CA4018592FBC00A89DC0 /* Model */,
 				5864CA171859273400A89DC0 /* AppDelegate.h */,
@@ -133,6 +140,10 @@
 				5864CA1E1859273400A89DC0 /* MasterViewController.m */,
 				5864CA201859273400A89DC0 /* DetailViewController.h */,
 				5864CA211859273400A89DC0 /* DetailViewController.m */,
+				5864CA50185BA67000A89DC0 /* FilesViewController.h */,
+				5864CA51185BA67000A89DC0 /* FilesViewController.m */,
+				5864CA4D185BA5ED00A89DC0 /* GistTableViewCell.h */,
+				5864CA4E185BA5ED00A89DC0 /* GistTableViewCell.m */,
 				5864CA231859273400A89DC0 /* Images.xcassets */,
 				5864CA0F1859273400A89DC0 /* Supporting Files */,
 			);
@@ -186,6 +197,13 @@
 				5864CA4A185A6FFA00A89DC0 /* NSDictionary+ObjectFromJson.m */,
 			);
 			name = Utility;
+			sourceTree = "<group>";
+		};
+		5864CA4C185B9EA000A89DC0 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Network;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -288,12 +306,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5864CA4F185BA5ED00A89DC0 /* GistTableViewCell.m in Sources */,
 				5864CA4318592FDE00A89DC0 /* Gist.m in Sources */,
 				5864CA191859273400A89DC0 /* AppDelegate.m in Sources */,
 				5864CA1F1859273400A89DC0 /* MasterViewController.m in Sources */,
 				5864CA151859273400A89DC0 /* main.m in Sources */,
 				5864CA4618592FF500A89DC0 /* GistFile.m in Sources */,
 				5864CA221859273400A89DC0 /* DetailViewController.m in Sources */,
+				5864CA52185BA67000A89DC0 /* FilesViewController.m in Sources */,
 				5864CA4B185A6FFA00A89DC0 /* NSDictionary+ObjectFromJson.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
