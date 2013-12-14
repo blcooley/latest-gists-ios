@@ -11,9 +11,11 @@
 @interface Gist : NSObject
 
 @property (nonatomic, readonly, strong) NSArray *gistFiles;
-@property (nonatomic, readonly, strong) NSString *url;
 @property (nonatomic, readonly, strong) NSString *id;
 @property (nonatomic, readonly, strong) NSString *userLogin;
 @property (nonatomic, readonly, strong) NSString *description;
+
+- (id) initWithDictionary:(NSDictionary *)dictionary;
+- (NSString *)languages;
 
 @end

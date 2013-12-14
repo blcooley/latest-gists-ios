@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class GistFile;
+
 @interface DetailViewController : UIViewController
 
-@property (strong, nonatomic) id detailItem;
+@property (nonatomic, weak) IBOutlet UIWebView *webView;
+@property (strong, nonatomic) GistFile *detailItem;
 
-@property (weak, nonatomic) IBOutlet UITextView *detailText;
 @end

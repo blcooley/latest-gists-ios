@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class GistFile;
+
 @interface FilesViewController : UITableViewController
+
+@property (strong, nonatomic) NSArray *gistFiles;
 
 @end

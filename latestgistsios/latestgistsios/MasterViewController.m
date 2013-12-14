@@ -8,9 +8,15 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "GistTableViewCell.h"
+#import "Gist.h"
+#import "FilesViewController.h"
+
+#define SEGUE_FILES @"GistsToFiles"
+#define SEGUE_DETAIL @"GistsToDetail"
 
 @interface MasterViewController () {
-    NSMutableArray *_objects;
+    NSArray *_gists;
 }
 @end
 
@@ -24,6 +30,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"Pull to Refresh"];
+    [self.refreshControl addTarget:self action:@selector(refresh) forControlEvents:UIControlEventValueChanged];
     [self loadGists];
 }
 
@@ -50,11 +59,18 @@
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSError *error;
-        _objects = [NSJSONSerialization JSONObjectWithData:data
-                                                   options:kNilOptions
-                                                     error:&error];
-        NSLog(@"gists: %@", _objects);
-        dispatch_async(dispatch_get_main_queue(), ^{ [self.tableView reloadData]; });
+        NSArray *jsonGists = [NSJSONSerialization JSONObjectWithData:data
+                                                 options:kNilOptions
+                                                   error:&error];
+        NSMutableArray *gists = [NSMutableArray arrayWithCapacity:[jsonGists count]];
+        for (NSDictionary *gist in jsonGists) {
+            [gists addObject:[[Gist alloc] initWithDictionary:gist]];
+        }
+        _gists = [NSArray arrayWithArray:gists];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.tableView reloadData];
+            [self.refreshControl endRefreshing];
+        });
     });
 }
 
@@ -67,19 +83,19 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _objects.count;
+    return _gists.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    GistTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GistCell" forIndexPath:indexPath];
 
-    NSDictionary *object = _objects[indexPath.row];
-    NSLog(@"allkeys: %@", [object allKeys]);
-    id description = object[@"description"];
-    if (description != [NSNull null]) {
-        cell.textLabel.text = description;
-    }
+    Gist *gist = _gists[indexPath.row];
+    cell.userLoginLabel.text = gist.userLogin;
+    cell.gistIdLabel.text = gist.id;
+    cell.descriptionLabel.text = gist.description;
+    cell.languagesLabel.text = gist.languages;
+    
     return cell;
 }
 
@@ -89,32 +105,37 @@
     return NO;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [_objects removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
-    }
-}
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
-        [self performSegueWithIdentifier:@"GistsToDetail" sender:nil];
-    } else if (indexPath.row == 1) {
-        [self performSegueWithIdentifier:@"GistsToFiles" sender:nil];
+    Gist *gist = [_gists objectAtIndex:indexPath.row];
+    if ([gist.gistFiles count] == 1) {
+        [self performSegueWithIdentifier:SEGUE_DETAIL sender:nil];
+    } else {
+        [self performSegueWithIdentifier:SEGUE_FILES sender:nil];
     }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
+    if ([[segue identifier] isEqualToString:SEGUE_DETAIL]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = _objects[indexPath.row];
-        [[segue destinationViewController] setDetailItem:object];
+        GistFile *gistFile = [[_gists[indexPath.row] gistFiles] objectAtIndex:0];
+        [[segue destinationViewController] setDetailItem:gistFile];
+    } else if ([[segue identifier] isEqualToString:SEGUE_FILES]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        NSArray *gistFiles =[_gists[indexPath.row] gistFiles];
+        ((FilesViewController*)[segue destinationViewController]).gistFiles = gistFiles;
     }
+}
+
+- (void)refresh
+{
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"Refreshing the TableView"];
+    NSDateFormatter *formattedDate = [[NSDateFormatter alloc] init];
+    [formattedDate setDateFormat:@"MMM d, h:mm a"];
+    NSString *lastupdated = [NSString stringWithFormat:@"Last Updated on %@",[formattedDate stringFromDate:[NSDate date]]];
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:lastupdated];
+    [self loadGists];
 }
 
 @end

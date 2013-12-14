@@ -10,6 +10,9 @@
 
 @interface GistFile : NSObject
 
-@property (nonatomic, strong) NSString *rawText;
+@property (nonatomic, readonly, strong) NSString *filename;
+@property (nonatomic, readonly, strong) NSString *language;
+@property (nonatomic, readonly, strong) NSString *rawUrl;
 
+- (id)initWithDictionary:(NSDictionary *)dictionary;
 @end

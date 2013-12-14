@@ -10,9 +10,9 @@
 
 @interface GistTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) UILabel *userLoginLabel;
-@property (nonatomic, strong) UILabel *gistIdLabel;
-@property (nonatomic, strong) UILabel *descriptionLabel;
-@property (nonatomic, strong) UILabel *languagesLabel;
+@property (nonatomic, weak) IBOutlet UILabel *userLoginLabel;
+@property (nonatomic, weak) IBOutlet UILabel *gistIdLabel;
+@property (nonatomic, weak) IBOutlet UILabel *descriptionLabel;
+@property (nonatomic, weak) IBOutlet UILabel *languagesLabel;
 
 @end
