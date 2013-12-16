@@ -34,8 +34,21 @@
     if (self.detailItem) {
         NSURL *url = [NSURL URLWithString:self.detailItem.rawUrl];
         NSURLRequest *request = [NSURLRequest requestWithURL:url];
-        [self.webView loadRequest:request];
+        NSURLSession *session = [NSURLSession sharedSession];
+        NSURLSessionDataTask *task = [session dataTaskWithRequest:request
+                                                completionHandler:
+                                      ^(NSData *data, NSURLResponse *response, NSError *error) {
+                                          [self performSelectorOnMainThread:@selector(updateText:)
+                                                                 withObject:data waitUntilDone:NO];
+                                      }];
+        
+        [task resume];
     }
+}
+
+- (void)updateText:(NSData *)data
+{
+    self.textView.text = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
 - (void)viewDidLoad

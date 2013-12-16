@@ -12,7 +12,7 @@
 
 @interface DetailViewController : UIViewController
 
-@property (nonatomic, weak) IBOutlet UIWebView *webView;
+@property (nonatomic, weak) IBOutlet UITextView *textView;
 @property (strong, nonatomic) GistFile *detailItem;
 
 @end
